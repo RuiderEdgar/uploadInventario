@@ -1,6 +1,7 @@
 -------------* visits_exhibitions ---------------
 
-CREATE TABLE visit_type (
+
+CREATE TABLE visits_exhibitions.visit_type (
   visit_type_id SERIAL PRIMARY KEY, 
   visit_type_name VARCHAR(30) NOT NULL,
   visit_type_description VARCHAR(60),
@@ -8,7 +9,7 @@ CREATE TABLE visit_type (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE visit (
+CREATE TABLE visits_exhibitions.visit (
   visit_id SERIAL PRIMARY KEY,
   visit_completed BOOLEAN NOT NULL,
   date_id INT NOT NULL,
@@ -21,7 +22,7 @@ CREATE TABLE visit (
   FOREIGN KEY (visit_type_id) REFERENCES visits_exhibitions.visit_type(visit_type_id)
 );
 
-CREATE TABLE survey (
+CREATE TABLE visits_exhibitions.survey (
   survey_id SERIAL PRIMARY KEY,
   survey_completed BOOLEAN NOT NULL,
   visit_id INT NOT NULL,
@@ -30,7 +31,7 @@ CREATE TABLE survey (
   FOREIGN KEY (visit_id) REFERENCES visits_exhibitions.visit(visit_id)
 );
 
-CREATE TABLE photo_evidence (
+CREATE TABLE visits_exhibitions.photo_evidence (
   photo_evidence_id SERIAL PRIMARY KEY,
   photo_url VARCHAR(255) NOT NULL,
   rating INT NOT NULL CHECK (rating > 0 AND rating < 10),
@@ -39,7 +40,7 @@ CREATE TABLE photo_evidence (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE exhibition_incident_type (
+CREATE TABLE visits_exhibitions.exhibition_incident_type (
   exhibition_incident_type_id SERIAL PRIMARY KEY,
   incident_type_name VARCHAR(30) NOT NULL,
   incident_type_description VARCHAR(60),
@@ -47,15 +48,7 @@ CREATE TABLE exhibition_incident_type (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE visit_type (
-  visit_type_id SERIAL PRIMARY KEY,
-  visit_type_name VARCHAR(30) NOT NULL,
-  visit_type_description VARCHAR(60),
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE exhibition_type (
+CREATE TABLE visits_exhibitions.exhibition_type (
   exhibition_type_id SERIAL PRIMARY KEY,
   exhibition_type_name VARCHAR(30) NOT NULL,
   exhibition_description VARCHAR(60),
@@ -63,14 +56,15 @@ CREATE TABLE exhibition_type (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE shelf_type (
+CREATE TABLE visits_exhibitions.shelf_type (
   shelf_type_id SERIAL PRIMARY KEY,
   shelf_name VARCHAR(30) NOT NULL,
+  shelf_description VARCHAR(60) NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE exhibition (
+CREATE TABLE visits_exhibitions.exhibition (
   exhibition_id SERIAL PRIMARY KEY,
   product_status VARCHAR(30) NOT NULL,
   fronts INT, 
@@ -91,4 +85,3 @@ CREATE TABLE exhibition (
   FOREIGN KEY (exhibition_type_id) REFERENCES visits_exhibitions.exhibition_type(exhibition_type_id),
   FOREIGN KEY (product_id) REFERENCES product_catalog.product(product_id)
 );
-

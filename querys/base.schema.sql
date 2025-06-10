@@ -1,6 +1,7 @@
--------------* base - config ---------------
+-------------* base ---------------
+-- check: query ejecutado
 
-CREATE TABLE date (
+CREATE TABLE base.date (
   date_id SERIAL PRIMARY KEY,
   date_actual DATE NOT NULL UNIQUE,
   day_number INT NOT NULL,
@@ -9,7 +10,7 @@ CREATE TABLE date (
   day_name VARCHAR(10) NOT NULL,
   month_name VARCHAR(10) NOT NULL,
   week_year INT NOT NULL,
-  walmart_weeks INT NULL,
+  walmart_weeks INT NOT NULL,
   day_of_year INT NOT NULL,
   bimester_of_year INT NOT NULL,
   quarter_of_year INT NOT NULL,
@@ -17,14 +18,14 @@ CREATE TABLE date (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE country (
+CREATE TABLE base.country (
   country_id SERIAL PRIMARY KEY,
   country_name VARCHAR(30) NOT NULL UNIQUE,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE state (
+CREATE TABLE base.state (
   state_id SERIAL PRIMARY KEY,
   state_name VARCHAR(25) NOT NULL UNIQUE,
   country_id INT NOT NULL, 
@@ -33,24 +34,24 @@ CREATE TABLE state (
   FOREIGN KEY (country_id) REFERENCES base.country(country_id)
 );
 
-CREATE TABLE municipality (
+CREATE TABLE base.municipality (
   municipality_id SERIAL PRIMARY KEY,
   municipality_name VARCHAR(45) NOT NULL,
   state_id INT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   UNIQUE (state_id, municipality_name),
-  FOREIGN KEY (state_id) REFERENCES base.state (state_id)
+  FOREIGN KEY (state_id) REFERENCES base.state(state_id)
 );
 
-CREATE TABLE postal_code (
+CREATE TABLE base.postal_code (
   postal_code_id SERIAL PRIMARY KEY,
   postal_code VARCHAR(10) NOT NULL UNIQUE,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE colony (
+CREATE TABLE base.colony (
   colony_id SERIAL PRIMARY KEY,
   colony_name VARCHAR(45) NOT NULL,
   municipality_id INT, 
@@ -62,7 +63,7 @@ CREATE TABLE colony (
   FOREIGN KEY (postal_code_id) REFERENCES base.postal_code(postal_code_id)
 );
 
-CREATE TABLE person (
+CREATE TABLE base.person (
   person_id SERIAL PRIMARY KEY,
   first_name VARCHAR(20) NOT NULL,
   middle_name VARCHAR(20),
@@ -75,5 +76,7 @@ CREATE TABLE person (
   colony_id INT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (colony_id) REFERENCES base.person(colony_id)
+  FOREIGN KEY (colony_id) REFERENCES base.colony(colony_id)
 );
+
+-- TODO: añadir constrain para curp null o not null para type_person en person
