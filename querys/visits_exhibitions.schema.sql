@@ -1,4 +1,4 @@
--------------* visits_exhibitions ---------------
+-------------* visits_exhibitions --------------
 
 
 CREATE TABLE visits_exhibitions.visit_type (
